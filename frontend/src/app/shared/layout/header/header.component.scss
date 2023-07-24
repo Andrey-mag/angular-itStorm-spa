@@ -1,0 +1,48 @@
+@import "../../../../assets/styles/variables";
+
+.header {
+  padding: 40px;
+
+  .container {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      margin-right: 100px;
+      cursor: pointer;
+    }
+
+
+    .header-phone {
+      margin-right: 89px;
+
+      a {
+        text-decoration: none;
+        color: $light-blue-color;
+        font-family: Montserrat, sans-serif;
+        font-style: normal;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+
+    .header-action {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      .header-action-button {
+        color: $dark-blue-color;
+        text-decoration: none;
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        background-color: transparent;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+    }
+  }
+}

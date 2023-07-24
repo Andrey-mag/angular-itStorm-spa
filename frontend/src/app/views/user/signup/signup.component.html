@@ -1,0 +1,64 @@
+<section class="signup">
+  <div class="container">
+    <div class="auth-form" [formGroup]="signupForm">
+      <div class="auth-title">Регистрация на сайте</div>
+      <div class="auth-inputs">
+        <div class="auth-input">
+          <input type="text" class="input" placeholder="Ваше имя" formControlName="name"
+                 [ngStyle]="{'border-color': name?.invalid && (name?.touched || name?.dirty) ? 'red' : ''}">
+
+          <div class="invalid-feedback-block" *ngIf="name?.invalid && (name?.touched || name?.dirty)">
+            <div class="invalid-feedback" *ngIf="name?.errors?.['required']">
+              Введите свое имя.
+            </div>
+            <div class="invalid-feedback" *ngIf="name?.errors?.['pattern']">
+              Некорректно введено имя.
+            </div>
+          </div>
+        </div>
+        <div class="auth-input">
+          <input type="text" class="input" placeholder="Электронная почта" formControlName="email"
+          [ngStyle]="{'border-color': email?.invalid && (email?.touched || email?.dirty) ? 'red' : ''}">
+
+          <div class="invalid-feedback-block" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+            <div class="invalid-feedback" *ngIf="email?.errors?.['required']">
+              Введите свой email.
+            </div>
+            <div class="invalid-feedback" *ngIf="email?.errors?.['email']">
+              Некорректно введен email.
+            </div>
+          </div>
+        </div>
+        <div class="auth-input">
+          <input type="password" class="input" placeholder="Пароль" formControlName="password"
+          [ngStyle]="{'border-color': password?.invalid && (password?.dirty || password?.touched) ? 'red' : ''}">
+
+          <div class="invalid-feedback-block" *ngIf="password?.invalid && (password?.touched || password?.dirty)">
+            <div class="invalid-feedback" *ngIf="password?.errors?.['required']">
+              Введите пароль.
+            </div>
+            <div class="invalid-feedback" *ngIf="password?.errors?.['pattern']">
+              Некорректно введен пароль.
+            </div>
+          </div>
+        </div>
+        <div class="auth-checkbox">
+          <input type="checkbox" id="agree" formControlName="agree">
+          <label for="agree">
+            Я принимаю <a href="">условия пользовательского соглашения</a> и даю <a href="#">согласие на обработку
+            персональных данных.</a>
+          </label>
+        </div>
+        <div class="auth-action">
+          <button class="button">Зарегистрироваться</button>
+        </div>
+        <div class="auth-link">
+          Уже есть аккаунт? <a routerLink="/login">Войдите</a>
+        </div>
+      </div>
+    </div>
+    <div class="auth-image">
+      <img src="./assets/images/pages/signup.png" alt="signup">
+    </div>
+  </div>
+</section>

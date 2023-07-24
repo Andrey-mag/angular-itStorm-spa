@@ -1,0 +1,71 @@
+@import "variables";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+}
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+nav {
+  margin-right: 157px;
+  .menu {
+    display: flex;
+    gap: 30px;
+
+
+    .menu-item {
+      list-style: none;
+      a {
+        text-decoration: none;
+        color: #071739;
+        font-family: Montserrat, sans-serif;
+        font-style: normal;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+
+.button {
+  padding: 10px 20px;
+  background-color: $light-blue-color;
+  color: $white-color;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+  width: 153px;
+  box-sizing: border-box;
+}
+
+.input {
+  width: 422px;
+  height: 53px;
+  padding: 20px 64px 20px 20px;
+  border-radius: 3px;
+  border: 1.5px solid $light-blue-color;
+  background: $white-color;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+
+
+  &::placeholder {
+    color: $gray-color;
+    font-family: Montserrat,sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+  }
+}
+
+[type="checkbox"] {
+  margin-top: 5px;
+  margin-bottom: 40px;
+}

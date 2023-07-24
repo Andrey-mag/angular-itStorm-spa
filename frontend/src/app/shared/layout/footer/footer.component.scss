@@ -1,0 +1,69 @@
+@import "../../../../assets/styles/variables";
+
+.footer {
+  padding-top: 40px;
+  padding-bottom: 54px;
+  background-color: #B9D5FD;
+
+  .container {
+
+    .footer-item-menu {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+
+      .logo {
+        margin-right: 40px;
+      }
+    }
+
+    .footer-item-contacts {
+      display: flex;
+      gap: 60px;
+      margin-bottom: 6px;
+
+      .footer-item {
+        .footer-item-title {
+          color: #709FDC;
+          font-family: Montserrat, sans-serif;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        .footer-item-info {
+          width: 253px;
+          margin-bottom: 10px;
+
+          a {
+            text-decoration: none;
+            color: $dark-blue-color;
+            font-family: Montserrat, sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+          }
+        }
+
+        .footer-item-icons {
+          display: flex;
+          flex-direction: row;
+          gap: 12px;
+
+          a {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    .footer-roots {
+      color: $light-blue-color;
+      font-family: Montserrat, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+    }
+  }
+}
