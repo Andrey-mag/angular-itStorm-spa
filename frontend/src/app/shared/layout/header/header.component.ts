@@ -8,9 +8,10 @@ import {Router} from "@angular/router";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
 
   isLogged: boolean = false;
+
   constructor(private authService: AuthService,
               private _snackBar: MatSnackBar,
               private router: Router) {
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit{
   logout() {
     this.authService.logout()
       .subscribe({
-        next :( () => {
+        next: (() => {
           this.doLogout();
         }),
 

@@ -5,6 +5,7 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {LoginResponseType} from "../../../../types/login-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -61,6 +62,14 @@ export class LoginComponent {
             this.authService.userId = loginResponse.userId;
             this._snackBar.open('Вы успешно авторизовались!');
             this.router.navigate(['/'])
+          },
+
+          error : (errorResponse :HttpErrorResponse) => {
+            if (errorResponse.error && errorResponse.error.message) {
+              this._snackBar.open(errorResponse.error.message)
+            } else {
+              this._snackBar.open('Ошибка отправки запроса входа!')
+            }
           }
         })
 
