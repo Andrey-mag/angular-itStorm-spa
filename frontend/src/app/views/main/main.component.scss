@@ -2,8 +2,6 @@
 @import "../../../assets/styles/mixins";
 
 .main {
-  position: relative;
-
   .container {
     .main-carousel {
       margin-bottom: 120px;
@@ -79,55 +77,64 @@
         margin-bottom: 40px;
       }
 
-      .service {
-        width: 287px;
+      .services {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        .service-info-block {
-          margin-bottom: 33px;
+        .service {
+          width: 287px;
 
-          img {
-            margin-bottom: 15px;
+          .service-info-block {
+            margin-bottom: 33px;
+
+            img {
+              margin-bottom: 15px;
+            }
+
+            .service-info-title {
+              color: $light-blue-color;
+              font-family: Montserrat, sans-serif;
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 500;
+              margin-bottom: 10px;
+            }
+
+            .service-info-text {
+              color: $dark-blue-color;
+              font-family: Montserrat, sans-serif;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: 130%; /* 18.2px */
+              height: 90px;
+            }
           }
 
-          .service-info-title {
-            color: $light-blue-color;
-            font-family: Montserrat, sans-serif;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 500;
-            margin-bottom: 10px;
-          }
+          .service-action-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-          .service-info-text {
-            color: $dark-blue-color;
-            font-family: Montserrat, sans-serif;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 130%; /* 18.2px */
+            .service-price {
+              color: #709FDC;
+              font-family: Montserrat, sans-serif;
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 600;
+            }
+
+            .button {
+              padding: 15px 30px;
+              font-size: 16px;
+              box-sizing: border-box;
+            }
           }
         }
 
-        .service-action-block {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-
-          .service-price {
-            color: #709FDC;
-            font-family: Montserrat, sans-serif;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 600;
-          }
-
-          .button {
-            padding: 15px 30px;
-            font-size: 16px;
-            box-sizing: border-box;
-          }
-        }
       }
+
     }
 
     .about {
@@ -423,4 +430,7 @@
 
   }
 }
+
+
+
 

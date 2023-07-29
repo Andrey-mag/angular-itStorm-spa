@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixins";
 
 html, body {
   margin: 0;
@@ -14,6 +15,7 @@ html, body {
 
 nav {
   margin-right: 157px;
+
   .menu {
     display: flex;
     gap: 30px;
@@ -21,6 +23,7 @@ nav {
 
     .menu-item {
       list-style: none;
+
       a {
         text-decoration: none;
         color: #071739;
@@ -58,7 +61,7 @@ nav {
 
   &::placeholder {
     color: $gray-color;
-    font-family: Montserrat,sans-serif;
+    font-family: Montserrat, sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -68,4 +71,71 @@ nav {
 [type="checkbox"] {
   margin-top: 5px;
   margin-bottom: 40px;
+}
+
+
+.popup {
+  width: 727px;
+  border-radius: 5px;
+  border: 1.5px solid $light-blue-color;
+  background: $white-color;
+
+
+  .popup-container {
+    box-sizing: border-box;
+    text-align: center;
+    padding-top: 94px;
+    padding-bottom: 84px;
+    position: relative;
+
+    .popup-close {
+      position: absolute;
+      top: 32px;
+      right: 31px;
+      cursor: pointer;
+    }
+
+    .popup-title {
+      @include head-lora-38;
+      margin-bottom: 20px;
+    }
+
+    .popup-info {
+      color: $dark-blue-color;
+      text-align: center;
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      margin-bottom: 40px;
+    }
+
+    .auth-form {
+
+      input {
+        color: $light-blue-color;
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+      }
+
+      .invalid-feedback {
+        margin-left: 155px;
+        text-align: left;
+        color: red;
+      }
+
+      .button {
+        padding: 15px 40px;
+        margin-top: 15px;
+        box-sizing: border-box;
+        width: 422px;
+        color: #FFF;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+      }
+    }
+  }
 }

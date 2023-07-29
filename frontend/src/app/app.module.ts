@@ -12,6 +12,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {RouterModule} from "@angular/router";
 import {CarouselModule} from "ngx-owl-carousel-o";
 import {SharedModule} from "./shared/shared.module";
+import {MatMenuModule} from "@angular/material/menu";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -25,11 +28,14 @@ import {SharedModule} from "./shared/shared.module";
     BrowserModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatMenuModule,
+    MatDialogModule,
     RouterModule,
     CarouselModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},

@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../core/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {UserService} from "../../services/user.service";
+import {UserResponseType} from "../../../../types/user-response.type";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-header',
@@ -11,11 +15,14 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
 
   isLogged: boolean = false;
+  userName: string = '';
 
   constructor(private authService: AuthService,
               private _snackBar: MatSnackBar,
-              private router: Router) {
+              private router: Router,
+              private userService: UserService) {
     this.isLogged = this.authService.getIsLoggedIn();
+    this.getUserInfo();
   }
 
   ngOnInit() {
@@ -42,5 +49,23 @@ export class HeaderComponent implements OnInit {
     this.authService.userId = null;
     this._snackBar.open('Вы успешно вышли из системы!');
     this.router.navigate(['/']);
+  }
+
+  getUserInfo() {
+    if (this.isLogged) {
+      this.userService.getUserInfo()
+        .subscribe({
+          next: (data) => {
+            this.userName = (data as UserResponseType).name
+          },
+          error: (errorResponse: HttpErrorResponse) => {
+            if (errorResponse.error && errorResponse.error.message) {
+              this._snackBar.open(errorResponse.error.message)
+            } else {
+              this._snackBar.open('Ошибка получения данных пользователя!')
+            }
+          }
+        })
+    }
   }
 }

@@ -32,6 +32,10 @@
       align-items: center;
       gap: 7px;
 
+      .header-action-icon {
+        cursor: pointer;
+      }
+
       .header-action-button {
         color: $dark-blue-color;
         text-decoration: none;
