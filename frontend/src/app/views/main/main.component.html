@@ -143,24 +143,7 @@
     <section class="popular">
       <div class="popular-title">Популярные статьи из блога</div>
       <div class="popular-blogs">
-        <div class="popular-blog">
-          <div class="popular-blog-topic">
-            Фриланс
-          </div>
-          <img src="./assets/images/pages/blog1.png" alt="blog">
-          <div class="popular-blog-title">
-            6 сайтов для повышения продуктивности
-          </div>
-          <div class="popular-blog-info">
-            Хотите проводить время в сети с пользой? Наша подборка из шести полезных, но малоизвестных сайтов увеличит
-            вашу продуктивность, поможет успевать больше в течение дня и всегда быть на шаг впереди!
-          </div>
-          <div class="popular-blog-link">
-            <a href="#">
-              Читать дальше
-            </a>
-          </div>
-        </div>
+        <article-card [article]="article" *ngFor="let article of popularArticles"></article-card>
       </div>
     </section>
 

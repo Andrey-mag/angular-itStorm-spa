@@ -11,6 +11,9 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {RequestService} from "../../shared/services/request.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ArticleType} from "../../../types/article.type";
+import {ArticleService} from "../../shared/services/article.service";
+import {DefaultResponseType} from "../../../types/default-response.type";
 
 @Component({
   selector: 'app-main',
@@ -26,15 +29,15 @@ export class MainComponent implements OnInit {
   private popupSuccess!: TemplateRef<ElementRef>
 
   dialogRef: MatDialogRef<any> | null = null;
+  isLogged: boolean = false;
+  userInfo: UserResponseType | null = null;
+  popularArticles: ArticleType[] = [];
+
   popupForm = this.fb.group({
     service: ['', [Validators.required]],
     name: ['', [Validators.required, Validators.pattern('^([А-Яа-я]{3,})$')]],
     phone: ['', [Validators.required, Validators.pattern('(^8|7|\\+7)((\\d{10})|(\\s\\(\\d{3}\\)\\s\\d{3}\\s\\d{2}\\s\\d{2}))')]],
   })
-
-
-  isLogged: boolean = false;
-  userInfo: UserResponseType | null = null;
 
   customOptions: OwlOptions = {
     loop: true,
@@ -125,7 +128,6 @@ export class MainComponent implements OnInit {
 
   ]
 
-
   get service() {
     return this.popupForm.get('service');
   }
@@ -145,11 +147,13 @@ export class MainComponent implements OnInit {
     private dialog: MatDialog,
     private requestService: RequestService,
     private _snackBar: MatSnackBar,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private articleService: ArticleService) {
     this.isLogged = this.authService.getIsLoggedIn();
   }
 
   ngOnInit() {
+    this.getPopularArticle();
   }
 
   openPopup(value: string): void {
@@ -170,8 +174,8 @@ export class MainComponent implements OnInit {
       this.requestService.sendServiceRequest(this.name.value, this.phone.value, this.service.value)
         .subscribe({
           next: () => {
-              this.openSuccessPopup();
-              this.popupForm.reset();
+            this.openSuccessPopup();
+            this.popupForm.reset();
           },
 
           error: (errorResponse: HttpErrorResponse) => {
@@ -183,6 +187,30 @@ export class MainComponent implements OnInit {
           }
         })
     }
+  }
+
+  getPopularArticle() {
+    this.articleService.getPopularArticle()
+      .subscribe({
+        next: (data: DefaultResponseType | ArticleType[]) => {
+
+          if ((data as DefaultResponseType)) {
+            this._snackBar.open('Популярные статьи не найдены.')
+          }
+
+          if ((data as ArticleType[])) {
+            this.popularArticles = data as ArticleType[]
+          }
+        },
+
+        error: (errorResponse: HttpErrorResponse) => {
+          if (errorResponse.error && errorResponse.error.message) {
+            this._snackBar.open(errorResponse.error.message)
+          } else {
+            this._snackBar.open('Ошибка отправки запроса с популярными статьями!')
+          }
+        }
+      })
   }
 
   // getUserInfo() {
