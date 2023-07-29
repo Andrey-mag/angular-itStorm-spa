@@ -194,7 +194,7 @@ export class MainComponent implements OnInit {
       .subscribe({
         next: (data: DefaultResponseType | ArticleType[]) => {
 
-          if ((data as DefaultResponseType)) {
+          if ((data as DefaultResponseType).error !== undefined) {
             this._snackBar.open('Популярные статьи не найдены.')
           }
 

@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import {LayoutComponent} from "./shared/layout/layout.component";
 import {MainComponent} from "./views/main/main.component";
 import {AuthForwardGuard} from "./core/auth/auth-forward.guard";
-import {LoginComponent} from "./views/user/login/login.component";
 import {AgreementComponent} from "./shared/components/agreement/agreement.component";
 
 const routes: Routes = [{
@@ -13,7 +12,7 @@ const routes: Routes = [{
     {path: '', component: MainComponent},
     {path:'agreement', component:AgreementComponent},
     {path:'', loadChildren: () => import('./views/user/user.module').then(m => m.UserModule), canActivate:[AuthForwardGuard]},
-  //   {path:'', loadChildren: () => import('./views/product/product.module').then(m => m.ProductModule)},
+    {path:'', loadChildren: () => import('./views/article/article.module').then(m => m.ArticleModule)},
   //   {path:'', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
   //   {path:'', loadChildren: () => import('./views/personal/personal.module').then(m => m.PersonalModule), canActivate:[AuthGuard]},
   ]

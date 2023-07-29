@@ -1,0 +1,127 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.catalog {
+  padding-top: 80px;
+  padding-bottom: 120px;
+  .container {
+    .catalog-title {
+      @include head-lora-38;
+      margin-bottom: 40px;
+    }
+
+    .catalog-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+
+      .catalog-applied-filters {
+        display: flex;
+        flex-wrap: wrap;
+
+        .catalog-applied-filter {
+          border-radius: 5px;
+          border: 1.5px solid $light-blue-color;
+          color: $light-blue-color;
+          font-size: 16px;
+          padding: 8px 20px;
+          display: flex;
+          align-items: center;
+          margin-right: 20px;
+          margin-bottom: 20px;
+
+          a {
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            margin-left: 8px;
+          }
+        }
+      }
+
+      .catalog-sorting {
+        width: 190px;
+        min-width: 190px;
+        box-sizing: border-box;
+        position: relative;
+        font-size: 16px;
+        cursor: pointer;
+
+        .catalog-sorting-head {
+          display: flex;
+          align-items: center;
+          padding: 12px 0 12px 23px;
+          justify-content: space-between;
+          color: $dark-blue-color;
+          margin-bottom: 40px;
+
+          span {
+            margin-right: 8px;
+          }
+        }
+
+        .catalog-sorting-body {
+          position: absolute;
+          width: 100%;
+          box-sizing: border-box;
+          z-index: 3;
+          display: none;
+          padding: 12px 23px;
+          border-radius: 0 0 5px 5px;
+          background: $white-color;
+          color: #BEBEBE;
+
+          .catalog-sorting-item {
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            cursor: pointer;
+
+            &:last-child {
+              margin: 0;
+            }
+
+            &.active {
+              color: $dark-blue-color;
+            }
+          }
+        }
+
+        &.open {
+          width: 257px;
+          min-width: 257px;
+
+          .catalog-sorting-head {
+            color: $dark-blue-color;
+            border-radius: 5px 5px 0 0;
+            background: #B9D5FD;
+            padding-right: 23px;
+          }
+
+          .catalog-sorting-body {
+            display: block;
+          }
+        }
+
+      }
+
+    }
+
+    .catalog-articles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .article-card {
+        margin-bottom: 40px;
+      }
+
+    }
+
+
+
+
+  }
+}

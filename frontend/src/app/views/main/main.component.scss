@@ -243,6 +243,23 @@
       .popular-blogs {
         display: flex;
         gap: 24px;
+        margin-bottom: 40px;
+      }
+
+      .blog-link{
+        display: block;
+        text-decoration: none;
+        text-align: right;
+        color: $light-blue-color;
+        font-family: Montserrat,sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+
+        span {
+          vertical-align: text-top;
+          margin-right: 14px;
+        }
       }
     }
 
