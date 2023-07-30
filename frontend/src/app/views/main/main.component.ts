@@ -171,7 +171,7 @@ export class MainComponent implements OnInit {
 
   sendForm() {
     if (this.popupForm.valid && this.service?.value && this.name?.value && this.phone?.value) {
-      this.requestService.sendServiceRequest(this.name.value, this.phone.value, this.service.value)
+      this.requestService.sendServiceRequest(this.name.value, this.phone.value,'order', this.service.value)
         .subscribe({
           next: () => {
             this.openSuccessPopup();

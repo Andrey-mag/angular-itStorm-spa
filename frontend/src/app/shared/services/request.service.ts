@@ -12,7 +12,7 @@ export class RequestService {
   constructor(private http:HttpClient) {
   }
 
-  sendServiceRequest(name:string, phone:string, service:string, type:string='order'):Observable<DefaultResponseType>  {
+  sendServiceRequest(name:string, phone:string,type:string, service?:string):Observable<DefaultResponseType>  {
     return this.http.post<DefaultResponseType>(environment.api + 'requests', {
         name, phone, service, type
     })
