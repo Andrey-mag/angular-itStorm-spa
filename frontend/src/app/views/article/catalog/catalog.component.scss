@@ -14,6 +14,7 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      margin-bottom: 40px;
 
       .catalog-applied-filters {
         display: flex;
@@ -53,13 +54,19 @@
           padding: 12px 0 12px 23px;
           justify-content: space-between;
           color: $dark-blue-color;
-          margin-bottom: 40px;
 
           span {
             margin-right: 8px;
           }
-        }
 
+          svg:first-child {
+            display: block;
+          }
+
+          svg:last-child {
+            display: none;
+          }
+        }
         .catalog-sorting-body {
           position: absolute;
           width: 100%;
@@ -71,23 +78,11 @@
           background: $white-color;
           color: #BEBEBE;
 
-          .catalog-sorting-item {
-            display: flex;
-            gap: 8px;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 14px;
-            cursor: pointer;
 
-            &:last-child {
-              margin: 0;
-            }
 
-            &.active {
-              color: $dark-blue-color;
-            }
-          }
         }
+
+
 
         &.open {
           width: 257px;
@@ -98,6 +93,14 @@
             border-radius: 5px 5px 0 0;
             background: #B9D5FD;
             padding-right: 23px;
+
+            svg {
+              display: none;
+            }
+
+            svg:last-child {
+              display: block;
+            }
           }
 
           .catalog-sorting-body {
@@ -106,7 +109,6 @@
         }
 
       }
-
     }
 
     .catalog-articles {

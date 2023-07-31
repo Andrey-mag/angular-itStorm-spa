@@ -5,6 +5,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import { PopupSuccessComponent } from './components/popup-success/popup-success.component';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
+import { CategoryComponent } from './components/category/category.component';
+import { CommentItemComponent } from './components/comment-item/comment-item.component';
 
 
 @NgModule({
@@ -12,6 +14,8 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
     AgreementComponent,
     PopupSuccessComponent,
     ArticleCardComponent,
+    CategoryComponent,
+    CommentItemComponent,
   ],
   imports: [
     CommonModule,
@@ -20,7 +24,9 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
   ],
   exports: [
     PopupSuccessComponent,
-    ArticleCardComponent
+    ArticleCardComponent,
+    CategoryComponent,
+    CommentItemComponent
   ]
 })
 export class SharedModule {

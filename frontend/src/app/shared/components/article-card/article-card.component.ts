@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ArticleType} from "../../../../types/article.type";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'article-card',
@@ -8,6 +9,14 @@ import {ArticleType} from "../../../../types/article.type";
 })
 export class ArticleCardComponent {
 
-  @Input('article') article!:ArticleType;
+  @Input('article') article!: ArticleType;
+
+  constructor(private router: Router) {
+  }
+
+  navigate() {
+    this.router.navigate(['/detail/' + this.article.url])
+
+  }
 
 }

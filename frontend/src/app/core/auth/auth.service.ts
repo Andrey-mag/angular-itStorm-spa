@@ -10,8 +10,7 @@ import {Observable, Subject, throwError} from "rxjs";
 })
 export class AuthService {
 
-  isLogged$: Subject<boolean> = new Subject()
-
+  isLogged$: Subject<boolean> = new Subject<boolean>();
   private isLogged: boolean = false;
   private accessTokenKey: string = 'accessToken';
   private refreshTokenKey: string = 'refreshToken';

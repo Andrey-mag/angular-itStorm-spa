@@ -1,4 +1,4 @@
-<div class="article-card">
+<div class="article-card" >
   <div class="article-card-topic">
     {{article.category}}
   </div>
@@ -10,7 +10,7 @@
     {{article.description}}
   </div>
   <div class="article-card-link">
-    <a routerLink="/blog">
+    <a (click)="navigate()">
       Читать дальше
     </a>
   </div>

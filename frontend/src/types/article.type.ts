@@ -7,3 +7,4 @@ export type ArticleType = {
   category: string,
   url: string,
 }
+
