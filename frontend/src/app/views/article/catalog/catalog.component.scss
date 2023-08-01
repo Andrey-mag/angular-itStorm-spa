@@ -4,6 +4,7 @@
 .catalog {
   padding-top: 80px;
   padding-bottom: 120px;
+
   .container {
     .catalog-title {
       @include head-lora-38;
@@ -67,6 +68,7 @@
             display: none;
           }
         }
+
         .catalog-sorting-body {
           position: absolute;
           width: 100%;
@@ -78,10 +80,29 @@
           background: $white-color;
           color: #BEBEBE;
 
+          .catalog-sorting-item {
+            margin-bottom: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            &.active {
+              color: $dark-blue-color;
+            }
+
+            svg {
+              width: 14px;
+              height: 14px;
+            }
+          }
 
         }
-
 
 
         &.open {
@@ -122,8 +143,49 @@
 
     }
 
+    .pagination {
+      margin-top: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
+      .pagination-arrow {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
+        &.disabled {
+          opacity: 0.5;
+        }
+      }
 
+      .pagination-pages {
+        margin-left: 40px;
+        margin-right: 40px;
+        display: flex;
+        align-items: center;
+
+        .pagination-page {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          margin-right: 40px;
+          cursor: pointer;
+          font-size: 20px;
+          color: $dark-blue-color;
+
+          &.active {
+            color: $light-blue-color;
+          }
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
+    }
   }
 }

@@ -15,7 +15,9 @@ export class CategoryService {
 
   constructor(private http:HttpClient) { }
 
-  getCategories(): Observable<DefaultResponseType | CategoriesType[]> {
-    return this.http.get<DefaultResponseType | CategoriesType[]>(environment.api + 'categories');
+  getCategories(): Observable<CategoriesType[]> {
+    return this.http.get<CategoriesType[]>(environment.api + 'categories');
   }
+
+
 }

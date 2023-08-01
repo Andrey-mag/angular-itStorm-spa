@@ -4,8 +4,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {UserResponseType} from "../../../../types/user-response.type";
-import {DefaultResponseType} from "../../../../types/default-response.type";
 import {HttpErrorResponse} from "@angular/common/http";
+import {DefaultResponseType} from "../../../../types/default-response.type";
 
 @Component({
   selector: 'app-header',
@@ -55,8 +55,8 @@ export class HeaderComponent implements OnInit {
     if (this.isLogged) {
       this.userService.getUserInfo()
         .subscribe({
-          next: (data) => {
-            this.userName = (data as UserResponseType).name
+          next: (data:UserResponseType | DefaultResponseType) => {
+            this.userName = (data as UserResponseType).name;
           },
           error: (errorResponse: HttpErrorResponse) => {
             if (errorResponse.error && errorResponse.error.message) {

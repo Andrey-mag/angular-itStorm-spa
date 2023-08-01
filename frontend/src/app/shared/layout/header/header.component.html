@@ -46,7 +46,7 @@
         </svg>
       </div>
       <a class="header-action-button" routerLink="/login" *ngIf="!this.isLogged">Войти</a>
-      <a class="header-action-button"  *ngIf="this.isLogged">Привет! {{userName}} </a>
+      <a class="header-action-button"  *ngIf="this.userName">Привет {{userName}}! </a>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="logout()">
           <span>Выйти</span>
