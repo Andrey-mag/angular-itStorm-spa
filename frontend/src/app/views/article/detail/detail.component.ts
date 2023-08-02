@@ -6,6 +6,7 @@ import {DetailArticleType} from "../../../../types/detail-article.type";
 import {CommentService} from "../../../shared/services/comment.service";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CommentType} from "../../../../types/comment.type";
 
 @Component({
   selector: 'detail',
@@ -17,10 +18,11 @@ export class DetailComponent implements OnInit {
   detailArticle!: DetailArticleType;
   relatedArticles!: ArticleType[];
   textareaValue: string = '';
+  comments: CommentType[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
-              private articleService:ArticleService,
-              private commentService:CommentService,
+              private articleService: ArticleService,
+              private commentService: CommentService,
               private _snackBar: MatSnackBar) {
   }
 
@@ -29,6 +31,7 @@ export class DetailComponent implements OnInit {
       this.articleService.getArticle(params['url'])
         .subscribe((data: DetailArticleType) => {
           this.detailArticle = data;
+          this.comments = data.comments;
         });
 
       this.articleService.getRelatedArticle((params['url']))
@@ -39,19 +42,33 @@ export class DetailComponent implements OnInit {
 
   }
 
+  getComments() {
+    const params = {
+      offset: this.comments.length,
+      article: this.detailArticle.id
+    }
+
+    this.commentService.getComments(params)
+      .subscribe((data) => {
+        data.comments.forEach(item => {
+          if (this.comments.length < data.allCount) {
+            this.comments.push(item)
+          }
+        })
+      })
+  }
+
   addComment() {
     this.commentService.addComment(this.textareaValue, this.detailArticle.id)
-      .subscribe((data:DefaultResponseType) => {
+      .subscribe((data: DefaultResponseType) => {
         let error = null;
         if ((data as DefaultResponseType).error !== undefined) {
           error = (data as DefaultResponseType).message;
           this._snackBar.open(error)
         }
 
-        this.textareaValue  = ' ';
+        this.textareaValue = ' ';
         this._snackBar.open('Комментарий отправлен!')
       })
   }
-
-
 }

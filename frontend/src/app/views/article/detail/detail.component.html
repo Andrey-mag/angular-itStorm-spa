@@ -2,7 +2,7 @@
   <div class="container">
     <div class="detail-navigation">
       <a routerLink="/catalog">Блог / </a>
-      {{detailArticle.title}}
+      <span>{{detailArticle.title}}</span>
     </div>
     <div class="detail-description-block">
       <div class="detail-description-info">
@@ -82,10 +82,10 @@
       </div>
 
       <div class="detail-article-comments-items">
-        <comment-item></comment-item>
+        <comment-item [comment]="comment" *ngFor="let comment of comments"></comment-item>
       </div>
 
-      <div class="detail-article-comments-read-more">
+      <div class="detail-article-comments-read-more" (click)="getComments()">
         Загрузить ещё комментарии
         <span>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
