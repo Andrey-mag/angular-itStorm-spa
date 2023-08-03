@@ -72,7 +72,7 @@ export class CommentItemComponent implements OnInit {
           },
           error: (errorResponse: HttpErrorResponse) => {
             if (errorResponse.error && errorResponse.error.message) {
-              this._snackbar.open('Жалоба уже отправлен')
+              this._snackbar.open('Жалоба уже отправленa')
             } else {
               this._snackbar.open(errorResponse.error.message)
             }

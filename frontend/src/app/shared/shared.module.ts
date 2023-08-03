@@ -6,6 +6,7 @@ import {RouterLink} from "@angular/router";
 import { PopupSuccessComponent } from './components/popup-success/popup-success.component';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { CommentItemComponent } from './components/comment-item/comment-item.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { CommentItemComponent } from './components/comment-item/comment-item.com
     PopupSuccessComponent,
     ArticleCardComponent,
     CommentItemComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { CommentItemComponent } from './components/comment-item/comment-item.com
   exports: [
     PopupSuccessComponent,
     ArticleCardComponent,
-    CommentItemComponent
+    CommentItemComponent,
+    LoaderComponent
   ]
 })
 export class SharedModule {
