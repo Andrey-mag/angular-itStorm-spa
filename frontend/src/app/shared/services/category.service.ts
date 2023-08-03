@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActiveParamsType} from "../../../types/active-params.type";
 import {Observable} from "rxjs";
-import {ArticleType} from "../../../types/article.type";
 import {environment} from "../../../environments/environment";
-import {DefaultResponseType} from "../../../types/default-response.type";
 import {CategoriesType} from "../../../types/categories.type";
 
 @Injectable({

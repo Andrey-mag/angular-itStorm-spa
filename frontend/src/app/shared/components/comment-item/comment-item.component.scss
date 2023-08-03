@@ -2,7 +2,8 @@
 @import "../../../../assets/styles/mixins";
 
 .comment-item {
-  .comment-item-avatar{
+  margin-bottom: 40px;
+  .comment-item-avatar {
     display: flex;
     gap: 26px;
     margin-bottom: 15px;
@@ -37,7 +38,7 @@
   .comment-item-text {
     width: 854px;
     color: $dark-blue-color;
-    font-family: Montserrat,sans-serif;
+    font-family: Montserrat, sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -52,11 +53,25 @@
     .comment-item-icon {
       display: flex;
       gap: 3px;
-      color: $light-blue-color;
-      font-family: Montserrat,sans-serif;
+      color: $dark-blue-color;
+      font-family: Montserrat, sans-serif;
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
+
+      span {
+
+        &.active {
+          color: $light-blue-color;
+        }
+      }
+
+
+      a {
+        text-decoration: none;
+        cursor: pointer;
+
+      }
     }
   }
 }

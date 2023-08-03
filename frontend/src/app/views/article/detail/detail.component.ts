@@ -7,6 +7,7 @@ import {CommentService} from "../../../shared/services/comment.service";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentType} from "../../../../types/comment.type";
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
   selector: 'detail',
@@ -19,14 +20,20 @@ export class DetailComponent implements OnInit {
   relatedArticles!: ArticleType[];
   textareaValue: string = '';
   comments: CommentType[] = [];
+  isLogged:boolean = false;
 
+  totalAmountLikes:number = 0;
+  totalAmountDislikes:number = 0;
   constructor(private activatedRoute: ActivatedRoute,
               private articleService: ArticleService,
               private commentService: CommentService,
-              private _snackBar: MatSnackBar) {
+              private _snackBar: MatSnackBar,
+              private authService:AuthService) {
   }
 
   ngOnInit() {
+    this.isLogged = this.authService.getIsLoggedIn();
+
     this.activatedRoute.params.subscribe(params => {
       this.articleService.getArticle(params['url'])
         .subscribe((data: DetailArticleType) => {
@@ -71,4 +78,5 @@ export class DetailComponent implements OnInit {
         this._snackBar.open('Комментарий отправлен!')
       })
   }
+
 }

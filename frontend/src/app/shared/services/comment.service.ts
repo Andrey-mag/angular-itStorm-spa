@@ -24,4 +24,10 @@ export class CommentService {
       article: article
     })
   }
+
+  sendCommentAction(id: string, action: string): Observable<DefaultResponseType> {
+    return this.http.post<DefaultResponseType>(environment.api + 'comments/' + id + '/apply-action', {
+      action: action
+    })
+  }
 }

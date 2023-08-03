@@ -129,6 +129,19 @@
         }
       }
 
+      .detail-isLogged {
+        color: $dark-blue-color;
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        margin-bottom: 60px;
+        a  {
+          color: $light-blue-color;
+          text-decoration: none;
+        }
+      }
+
       .detail-article-comments-block {
         margin-bottom: 63px;
       }
