@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {ReviewType} from "../../../types/review.type";
 import {MainServicesType} from "../../../types/main-services.type";
 import {UserService} from "../../shared/services/user.service";
-import {UserResponseType} from "../../../types/user-response.type";
 import {AuthService} from "../../core/auth/auth.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, Validators} from "@angular/forms";
@@ -30,7 +29,6 @@ export class MainComponent implements OnInit {
 
   dialogRef: MatDialogRef<any> | null = null;
   isLogged: boolean = false;
-  userInfo: UserResponseType | null = null;
   popularArticles: ArticleType[] = [];
 
   popupForm = this.fb.group({
@@ -166,7 +164,9 @@ export class MainComponent implements OnInit {
   }
 
   openSuccessPopup() {
+    this.popupForm.reset();
     this.dialogRef = this.dialog.open(this.popupSuccess);
+    this.dialogRef?.close(this.popup);
   }
 
   sendForm() {
@@ -175,7 +175,7 @@ export class MainComponent implements OnInit {
         .subscribe({
           next: () => {
             this.openSuccessPopup();
-            this.popupForm.reset();
+            this.dialogRef?.close(this.popup);
           },
 
           error: (errorResponse: HttpErrorResponse) => {
@@ -213,12 +213,4 @@ export class MainComponent implements OnInit {
       })
   }
 
-  // getUserInfo() {
-  //   if (this.isLogged) {
-  //     this.userService.getUserInfo()
-  //       .subscribe((data: DefaultResponseType | UserResponseType) => {
-  //         this.userInfo = data as UserResponseType
-  //       })
-  //   }
-  // }
 }
