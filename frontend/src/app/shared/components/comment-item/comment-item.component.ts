@@ -35,7 +35,6 @@ export class CommentItemComponent implements OnInit {
   }
 
 
-
   addLike(): void {
     if (this.isLogged) {
       this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
@@ -73,7 +72,7 @@ export class CommentItemComponent implements OnInit {
           },
           error: (errorResponse: HttpErrorResponse) => {
             if (errorResponse.error && errorResponse.error.message) {
-              this._snackbar.open('Жалоба уже отправлена')
+              this._snackbar.open('Жалоба уже отправлен')
             } else {
               this._snackbar.open(errorResponse.error.message)
             }

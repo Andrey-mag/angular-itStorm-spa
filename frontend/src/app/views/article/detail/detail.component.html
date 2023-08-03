@@ -75,6 +75,9 @@
 
     <div class="detail-article-comments">
       <div class="detail-article-comments-title"> Комментарии к статье</div>
+
+      <div class="detail-article-is-first-comment" *ngIf="(!comments || comments.length === 0)">Будьте первым, кто оставит свой комментарий к статье!</div>
+
       <div class="detail-article-textarea" *ngIf="isLogged">
         <textarea class="detail-article-comment-area" name="comments" id="comments"
                   placeholder="Напишите Ваш комментарий к статье..." [(ngModel)]="textareaValue"></textarea>

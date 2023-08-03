@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {DefaultResponseType} from "../../../types/default-response.type";
 import {CommentType} from "../../../types/comment.type";
 import {CommentParamsType} from "../../../types/comment-params.type";
+import {UserActionIdType} from "../../../types/user-action-id.type";
+import {UserActionType} from "../../../types/user-action.type";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class CommentService {
       params: params
     });
   }
+
   addComment(text: string, article: string): Observable<DefaultResponseType> {
     return this.http.post<DefaultResponseType>(environment.api + 'comments', {
       text: text,
@@ -30,4 +33,11 @@ export class CommentService {
       action: action
     })
   }
+
+  getCommentActions(params: UserActionIdType): Observable<UserActionType[] | DefaultResponseType> {
+    return this.http.get<UserActionType[] | DefaultResponseType>(environment.api + 'comments/article-comment-actions', {
+      params: params
+    })
+  }
+
 }

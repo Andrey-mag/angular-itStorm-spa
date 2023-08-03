@@ -8,6 +8,7 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentType} from "../../../../types/comment.type";
 import {AuthService} from "../../../core/auth/auth.service";
+import {UserActionType} from "../../../../types/user-action.type";
 
 @Component({
   selector: 'detail',
@@ -22,8 +23,6 @@ export class DetailComponent implements OnInit {
   comments: CommentType[] = [];
   isLogged:boolean = false;
 
-  totalAmountLikes:number = 0;
-  totalAmountDislikes:number = 0;
   constructor(private activatedRoute: ActivatedRoute,
               private articleService: ArticleService,
               private commentService: CommentService,
@@ -39,6 +38,24 @@ export class DetailComponent implements OnInit {
         .subscribe((data: DetailArticleType) => {
           this.detailArticle = data;
           this.comments = data.comments;
+
+          if  (this.isLogged) {
+            this.commentService.getCommentActions({articleId: this.detailArticle.id})
+              .subscribe((data: UserActionType[] | DefaultResponseType) => {
+                if ((data as DefaultResponseType).error !== undefined) {
+                  throw new Error((data as DefaultResponseType).message)
+                }
+
+                this.comments.map(comment => {
+                  (data as UserActionType[]).forEach((action:UserActionType) => {
+                    if (action.comment === comment.id) {
+                      comment.action = action.action
+                    }
+                  })
+                  return comment;
+                })
+              })
+          }
         });
 
       this.articleService.getRelatedArticle((params['url']))
