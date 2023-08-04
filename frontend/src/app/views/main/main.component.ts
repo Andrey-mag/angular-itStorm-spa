@@ -24,11 +24,9 @@ export class MainComponent implements OnInit {
   @ViewChild('popup')
   private popup!: TemplateRef<ElementRef>
 
-  @ViewChild('popupSuccess')
-  private popupSuccess!: TemplateRef<ElementRef>
-
   dialogRef: MatDialogRef<any> | null = null;
   isLogged: boolean = false;
+  isSuccess:boolean = false;
   popularArticles: ArticleType[] = [];
 
   popupForm = this.fb.group({
@@ -165,7 +163,7 @@ export class MainComponent implements OnInit {
 
   openSuccessPopup() {
     this.popupForm.reset();
-    this.dialogRef = this.dialog.open(this.popupSuccess);
+    this.isSuccess = !this.isSuccess;
     this.dialogRef?.close(this.popup);
   }
 

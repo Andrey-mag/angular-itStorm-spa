@@ -8,12 +8,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./popup-success.component.scss']
 })
 export class PopupSuccessComponent {
-  @Input('popupSuccess')popupSuccess! :TemplateRef<ElementRef>;
-  dialogRef: MatDialogRef<any> | null = null;
+
+   isSuccess:boolean = true;
   constructor(private router:Router) {
   }
   closePopup() {
-    this.dialogRef?.close(this.popupSuccess);
+    this.isSuccess = !this.isSuccess;
     this.router.navigate(['/']);
 
   }

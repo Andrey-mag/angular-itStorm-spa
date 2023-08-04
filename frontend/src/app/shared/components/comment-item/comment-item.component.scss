@@ -3,6 +3,7 @@
 
 .comment-item {
   margin-bottom: 40px;
+
   .comment-item-avatar {
     display: flex;
     gap: 26px;
@@ -59,13 +60,9 @@
       font-style: normal;
       font-weight: 600;
 
-      span {
-
-        &.active {
-          color: $light-blue-color;
-        }
+      &.active {
+        color: $light-blue-color;
       }
-
 
       a {
         text-decoration: none;

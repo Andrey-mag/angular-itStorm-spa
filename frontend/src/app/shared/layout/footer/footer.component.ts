@@ -15,15 +15,12 @@ export class FooterComponent {
   @ViewChild('popup')
   private popup!: TemplateRef<ElementRef>;
 
-  @ViewChild('popupSuccess')
-  private popupSuccess!: TemplateRef<ElementRef>
-
   dialogRef: MatDialogRef<any> | null = null;
-
+  isSuccess:boolean = false;
 
   popupFormConsultation = this.fb.group({
     name: ['', [Validators.required]],
-    phone: ['', [Validators.required]],
+    phone: ['', [Validators.required, Validators.pattern('(^8|7|\\+7)((\\d{10})|(\\s\\(\\d{3}\\)\\s\\d{3}\\s\\d{2}\\s\\d{2}))')]],
   })
 
   get name ()    {
@@ -44,11 +41,11 @@ export class FooterComponent {
 
   }
   closePopup() {
-    this.dialogRef?.close();
+    this.dialogRef?.close(this.popup);
   }
 
   openSuccessPopup() {
-    this.dialogRef = this.dialog.open(this.popupSuccess);
+    this.isSuccess = !this.isSuccess;
   }
 
   sendFormConsultation() {
@@ -57,6 +54,7 @@ export class FooterComponent {
         .subscribe({
           next: () => {
             this.openSuccessPopup();
+            this.closePopup();
             this.popupFormConsultation.reset();
           },
 

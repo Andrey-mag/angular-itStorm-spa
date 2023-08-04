@@ -145,7 +145,4 @@
   </div>
 </ng-template>
 
-
-<ng-template #popupSuccess>
-  <popup-success></popup-success>
-</ng-template>
+<popup-success *ngIf="isSuccess"></popup-success>
