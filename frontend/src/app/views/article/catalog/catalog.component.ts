@@ -5,7 +5,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActiveParamsType} from "../../../../types/active-params.type";
 import {CategoriesType} from "../../../../types/categories.type";
 import {CategoryService} from "../../../shared/services/category.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {debounceTime} from "rxjs";
 import {ActiveParamsUtil} from "../../../shared/utils/active-params.util";
 import {AppliedFilterType} from "../../../../types/applied-filter.type";
@@ -31,25 +31,25 @@ export class CatalogComponent implements OnInit {
               private router: Router) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.processCatalog();
   }
 
-  processCatalog() {
+  processCatalog():void {
     this.categoryService.getCategories()
-      .subscribe((data: CategoriesType[]) => {
+      .subscribe((data: CategoriesType[]): void => {
         this.categories = data;
 
         this.activatedRoute.queryParams
           .pipe(
             debounceTime(500)
           )
-          .subscribe(params => {
+          .subscribe((params: Params):void => {
             this.activeParams = ActiveParamsUtil.processParams(params);
 
             this.appliedFilters = [];
-            this.activeParams.categories.forEach(url => {
-              const foundType = this.categories.find(category => category.url === url);
+            this.activeParams.categories.forEach((url : string): void => {
+              const foundType : CategoriesType | undefined = this.categories.find((category: CategoriesType):boolean => category.url === url);
               if (foundType) {
                 this.appliedFilters.push({
                   name: foundType.name,
@@ -61,28 +61,27 @@ export class CatalogComponent implements OnInit {
             this.articleService.getArticles(this.activeParams)
               .subscribe(data => {
                 this.pages = [];
-                for (let i = 1; i <= data.pages; i++) {
+                for (let i:number = 1; i <= data.pages; i++) {
                   this.pages.push(i);
                 }
                 this.articles = data.items;
               })
-
           });
       });
   }
 
-  updateFilterParam(url: string) {
+  updateFilterParam(url: string) : void {
     if (this.activeParams.categories && this.activeParams.categories.length > 0) {
-      const existingCategoryInParam = this.activeParams.categories.find(category => category === url);
+      const existingCategoryInParam : string | undefined = this.activeParams.categories.find((category : string) => category === url);
       if (existingCategoryInParam) {
-        this.categories.find(item => {
+        this.categories.find((item : CategoriesType) : void => {
           if (item.url === url) {
             item.activeFilter = false
           }
         });
-        this.activeParams.categories = this.activeParams.categories.filter(item => item !== url)
+        this.activeParams.categories = this.activeParams.categories.filter((item : string) : boolean => item !== url)
       } else if (!existingCategoryInParam) {
-        this.categories.find(item => {
+        this.categories.find((item : CategoriesType): void => {
           if (item.url === url) {
             item.activeFilter = true
           }
@@ -100,9 +99,9 @@ export class CatalogComponent implements OnInit {
 
   }
 
-  removeAppliedFilter(appliedFilter: AppliedFilterType) {
-    this.activeParams.categories = this.activeParams.categories.filter(category => category !== appliedFilter.urlParam)
-    this.categories.find(item => {
+  removeAppliedFilter(appliedFilter: AppliedFilterType) :void {
+    this.activeParams.categories = this.activeParams.categories.filter((category : string): boolean => category !== appliedFilter.urlParam)
+    this.categories.find((item : CategoriesType): void => {
       if (item.url === appliedFilter.urlParam) {
         item.activeFilter = false
       }
@@ -113,18 +112,18 @@ export class CatalogComponent implements OnInit {
     })
   }
 
-  toggleSorting() {
+  toggleSorting() : void {
     this.filterOpen = !this.filterOpen;
   }
 
-  openPage(page: number) {
+  openPage(page: number) : void {
     this.activeParams.page = page;
     this.router.navigate(['/catalog'], {
       queryParams: this.activeParams
     })
   }
 
-  openPrevPage() {
+  openPrevPage(): void {
     if (this.activeParams.page && this.activeParams.page > 1) {
       this.activeParams.page--;
       this.router.navigate(['/catalog'], {
@@ -133,7 +132,7 @@ export class CatalogComponent implements OnInit {
     }
   }
 
-  openNextPage() {
+  openNextPage(): void {
     if (this.activeParams.page && this.activeParams.page < this.pages.length) {
       this.activeParams.page++;
       this.router.navigate(['/catalog'], {

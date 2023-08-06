@@ -4,7 +4,7 @@ export type CommentType = {
   date: string,
   likesCount: number,
   dislikesCount: number,
-  action?:string,
+  action?:string | null,
   user: {
     id: string,
     name: string

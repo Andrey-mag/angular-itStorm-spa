@@ -46,12 +46,18 @@ export class DetailComponent implements OnInit {
                   throw new Error((data as DefaultResponseType).message)
                 }
 
-                this.comments.map(comment => {
-                  (data as UserActionType[]).forEach((action:UserActionType) => {
-                    if (action.comment === comment.id) {
-                      comment.action = action.action
-                    }
-                  })
+
+                // this.comments.map(comment => {
+                //   (data as UserActionType[]).forEach((action:UserActionType) => {
+                //     if (action.comment === comment.id) {
+                //       comment.action = action.action
+                //     }
+                //   })
+                //   return comment;
+                // })
+
+                this.comments.map((comment:CommentType) => {
+                  comment['action']= (data as UserActionType[]).find((action : UserActionType) : boolean => action.comment === comment.id)?.action || null;
                   return comment;
                 })
               })
@@ -59,7 +65,7 @@ export class DetailComponent implements OnInit {
         });
 
       this.articleService.getRelatedArticle((params['url']))
-        .subscribe((data: ArticleType[]) => {
+        .subscribe((data: ArticleType[]):void => {
           this.relatedArticles = data;
         });
     });

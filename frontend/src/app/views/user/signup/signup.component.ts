@@ -18,7 +18,7 @@ export class SignupComponent {
     name: ['', [Validators.required, Validators.pattern('^([А-Яа-я]{3,})$')]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$')]],
-    agree: [false],
+    agree: [false , [Validators.requiredTrue]],
   })
 
   get name() {

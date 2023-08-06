@@ -287,10 +287,14 @@
       <div class="auth-form" [formGroup]="popupForm">
         <div class="auth-inputs">
           <div class="auth-input">
-            <input type="text" class="input"
-                   [ngStyle]="{'border-color': service?.invalid && (service?.dirty || service?.touched) ? 'red' : ''}"
-                   placeholder="Услуга" formControlName="service">
-
+            <select type="select" class="input" formControlName="service"
+                    [ngStyle]="{'border-color': popupForm.get('service')?.invalid
+                && (popupForm.get('service')?.dirty || popupForm.get('service')?.touched) ? 'red' : ''}">
+              <option>Копирайтинг</option>
+              <option>Продвижение</option>
+              <option>Реклама</option>
+              <option>Создание сайтов</option>
+            </select>
             <div class="invalid-feedback-block" *ngIf="service?.invalid && (service?.touched || service?.dirty)">
               <div class="invalid-feedback" *ngIf="service?.errors?.['required']">
                 Выберите услугу
