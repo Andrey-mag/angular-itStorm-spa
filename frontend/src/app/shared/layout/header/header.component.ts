@@ -25,41 +25,41 @@ export class HeaderComponent implements OnInit {
     this.getUserInfo();
   }
 
-  ngOnInit() {
-    this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
+  ngOnInit():void {
+    this.authService.isLogged$.subscribe((isLoggedIn: boolean):void => {
       this.isLogged = isLoggedIn;
       this.getUserInfo();
     })
   }
 
-  logout() {
+  logout():void {
     this.authService.logout()
       .subscribe({
         next: (() => {
           this.doLogout();
         }),
 
-        error: (() => {
+        error: (():void => {
           this.doLogout();
         })
       })
   }
 
-  doLogout() {
+  doLogout():void {
     this.authService.removeTokens();
     this.authService.userId = null;
     this._snackBar.open('Вы успешно вышли из системы!');
     this.router.navigate(['/']);
   }
 
-  getUserInfo() {
+  getUserInfo():void {
     if (this.isLogged) {
       this.userService.getUserInfo()
         .subscribe({
-          next: (data:UserResponseType | DefaultResponseType) => {
+          next: (data:UserResponseType | DefaultResponseType):void => {
             this.userName = (data as UserResponseType).name;
           },
-          error: (errorResponse: HttpErrorResponse) => {
+          error: (errorResponse: HttpErrorResponse):void => {
             if (errorResponse.error && errorResponse.error.message) {
               this._snackBar.open(errorResponse.error.message)
             } else {

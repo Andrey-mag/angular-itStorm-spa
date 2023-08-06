@@ -14,7 +14,7 @@ export class ArticleCardComponent {
   constructor(private router: Router) {
   }
 
-  navigate() {
+  navigate():void {
     this.router.navigate(['/detail/' + this.article.url])
 
   }

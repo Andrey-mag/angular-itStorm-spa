@@ -1,5 +1,4 @@
-import {Component, ElementRef, Input, TemplateRef} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -12,7 +11,7 @@ export class PopupSuccessComponent {
    isSuccess:boolean = true;
   constructor(private router:Router) {
   }
-  closePopup() {
+  closePopup():void {
     this.isSuccess = !this.isSuccess;
     this.router.navigate(['/']);
 

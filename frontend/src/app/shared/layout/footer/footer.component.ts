@@ -1,5 +1,5 @@
 import {Component, ElementRef, TemplateRef, ViewChild} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RequestService} from "../../services/request.service";
@@ -16,49 +16,51 @@ export class FooterComponent {
   private popup!: TemplateRef<ElementRef>;
 
   dialogRef: MatDialogRef<any> | null = null;
-  isSuccess:boolean = false;
+  isSuccess: boolean = false;
 
   popupFormConsultation = this.fb.group({
     name: ['', [Validators.required]],
     phone: ['', [Validators.required, Validators.pattern('(^8|7|\\+7)((\\d{10})|(\\s\\(\\d{3}\\)\\s\\d{3}\\s\\d{2}\\s\\d{2}))')]],
   })
 
-  get name ()    {
+  get name() {
     return this.popupFormConsultation.get('name');
   }
 
-  get phone ()    {
+  get phone() {
     return this.popupFormConsultation.get('phone');
   }
-  constructor(private fb:FormBuilder,
+
+  constructor(private fb: FormBuilder,
               private dialog: MatDialog,
-              private requestService:RequestService,
+              private requestService: RequestService,
               private _snackBar: MatSnackBar,) {
   }
 
-  openPopup() {
+  openPopup(): void {
     this.dialogRef = this.dialog.open(this.popup)
 
   }
-  closePopup() {
+
+  closePopup(): void {
     this.dialogRef?.close(this.popup);
   }
 
-  openSuccessPopup() {
+  openSuccessPopup(): void {
     this.isSuccess = !this.isSuccess;
   }
 
-  sendFormConsultation() {
-    if (this.popupFormConsultation.valid &&  this.name?.value && this.phone?.value) {
-      this.requestService.sendServiceRequest(this.name.value, this.phone.value,'consultation')
+  sendFormConsultation(): void {
+    if (this.popupFormConsultation.valid && this.name?.value && this.phone?.value) {
+      this.requestService.sendServiceRequest(this.name.value, this.phone.value, 'consultation')
         .subscribe({
-          next: () => {
+          next: (): void => {
             this.openSuccessPopup();
             this.closePopup();
             this.popupFormConsultation.reset();
           },
 
-          error: (errorResponse: HttpErrorResponse) => {
+          error: (errorResponse: HttpErrorResponse): void => {
             if (errorResponse.error && errorResponse.error.message) {
               this._snackBar.open(errorResponse.error.message)
             } else {
@@ -68,5 +70,4 @@ export class FooterComponent {
         })
     }
   }
-
 }

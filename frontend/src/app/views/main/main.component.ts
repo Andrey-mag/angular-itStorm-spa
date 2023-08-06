@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
 
   dialogRef: MatDialogRef<any> | null = null;
   isLogged: boolean = false;
-  isSuccess:boolean = false;
+  isSuccess: boolean = false;
   popularArticles: ArticleType[] = [];
 
   popupForm = this.fb.group({
@@ -148,7 +148,7 @@ export class MainComponent implements OnInit {
     this.isLogged = this.authService.getIsLoggedIn();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getPopularArticle();
   }
 
@@ -157,21 +157,21 @@ export class MainComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.popup)
   }
 
-  closePopup() {
+  closePopup(): void {
     this.dialogRef?.close(this.popup);
   }
 
-  openSuccessPopup() {
+  openSuccessPopup(): void {
     this.popupForm.reset();
     this.isSuccess = !this.isSuccess;
     this.dialogRef?.close(this.popup);
   }
 
-  sendForm() {
+  sendForm(): void {
     if (this.popupForm.valid && this.service?.value && this.name?.value && this.phone?.value) {
-      this.requestService.sendServiceRequest(this.name.value, this.phone.value,'order', this.service.value)
+      this.requestService.sendServiceRequest(this.name.value, this.phone.value, 'order', this.service.value)
         .subscribe({
-          next: () => {
+          next: (): void => {
             this.openSuccessPopup();
             this.dialogRef?.close(this.popup);
           },
@@ -187,10 +187,10 @@ export class MainComponent implements OnInit {
     }
   }
 
-  getPopularArticle() {
+  getPopularArticle(): void {
     this.articleService.getPopularArticle()
       .subscribe({
-        next: (data: DefaultResponseType | ArticleType[]) => {
+        next: (data: DefaultResponseType | ArticleType[]): void => {
 
           if ((data as DefaultResponseType).error !== undefined) {
             this._snackBar.open('Популярные статьи не найдены.')
@@ -201,7 +201,7 @@ export class MainComponent implements OnInit {
           }
         },
 
-        error: (errorResponse: HttpErrorResponse) => {
+        error: (errorResponse: HttpErrorResponse): void => {
           if (errorResponse.error && errorResponse.error.message) {
             this._snackBar.open(errorResponse.error.message)
           } else {
@@ -210,5 +210,4 @@ export class MainComponent implements OnInit {
         }
       })
   }
-
 }

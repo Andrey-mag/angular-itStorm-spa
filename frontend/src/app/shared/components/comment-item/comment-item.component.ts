@@ -30,60 +30,104 @@ export class CommentItemComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLogged = this.authService.getIsLoggedIn();
+    setTimeout((): void => {
+      this.checkActionValue()
+    }, 100);
+    this.likesCount = this.comment.likesCount;
+    this.dislikesCount = this.comment.dislikesCount;
   }
 
+  checkActionValue(): void {
+    if (this.comment.action) {
+      if (this.comment.action === this.actionLike) {
+        this.like = true;
+      }
+      if (this.comment.action === this.actionDislike) {
+        this.dislike = true;
+      }
+    }
+  }
 
   addLike(): void {
     if (this.isLogged) {
-      this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
-        .subscribe(data => {
-          this.like = true;
-          this.dislike = false;
-          this.likesCount++;
-          this._snackbar.open('Ваш голос учтен!')
-        })
+      if (!this.like) {
+        this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
+          .subscribe((data: DefaultResponseType): void => {
+            if (this.dislike) {
+              this.dislike = false;
+              this.dislikesCount = --this.dislikesCount
+            }
+            this.like = true;
+            this.dislike = false;
+            this.likesCount = ++this.likesCount
+            this._snackbar.open('Ваш голос учтен')
+
+          });
+      } else {
+        this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
+          .subscribe((data: DefaultResponseType): void => {
+            if (!data.error) {
+              this.like = false;
+              this.likesCount = --this.likesCount;
+            }
+          });
+      }
+    } else {
+      this._snackbar.open('Необходимо авторизоваться')
     }
   }
 
   addDislike(): void {
     if (this.isLogged) {
-      this.commentsService.sendCommentAction(this.comment.id, this.actionDislike)
-        .subscribe(data => {
-          this.dislike = true;
-          this.like = false;
-          this.dislikesCount++;
-          this._snackbar.open('Ваш голос учтен!')
-        })
-    }
+      if (!this.dislike) {
+        this.commentsService.sendCommentAction(this.comment.id, this.actionDislike)
+          .subscribe((data: DefaultResponseType): void => {
+            if (this.like) {
+              this.like = false;
+              this.likesCount = --this.likesCount;
+            }
+            this.dislike = true;
+            this.dislikesCount = ++this.dislikesCount;
+            this._snackbar.open('Ваш голос учтен')
 
+          })
+      } else {
+        this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
+          .subscribe((data: DefaultResponseType): void => {
+            if (!data.error) {
+              this.dislike = false;
+              this.dislikesCount = --this.dislikesCount;
+            }
+          });
+      }
+    } else {
+      this._snackbar.open('Необходимо авторизоваться')
+    }
   }
 
-  addViolate() {
+  addViolate(): void {
     if (this.isLogged) {
       this.commentsService.sendCommentAction(this.comment.id, this.violate)
         .subscribe({
-          next: (data: DefaultResponseType) => {
+          next: (data: DefaultResponseType): void => {
             if (!data.error) {
               this._snackbar.open('Жалоба отправлена');
 
             }
           },
-          error: (errorResponse: HttpErrorResponse) => {
+          error: (errorResponse: HttpErrorResponse): void => {
             if (errorResponse.error && errorResponse.error.message) {
               this._snackbar.open('Жалоба уже отправленa')
             } else {
               this._snackbar.open(errorResponse.error.message)
             }
           }
-        })
+        });
     } else {
       this._snackbar.open('Необходимо авторизоваться')
     }
   }
-
-
-
 }
 

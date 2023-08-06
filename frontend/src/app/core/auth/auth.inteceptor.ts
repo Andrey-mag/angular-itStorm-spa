@@ -46,7 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.authService.refresh()
       .pipe(
         switchMap((result: DefaultResponseType | LoginResponseType) => {
-          let error = '';
+          let error:string = '';
           if ((result as DefaultResponseType).error !== undefined) {
             error = (result as DefaultResponseType).message
           }

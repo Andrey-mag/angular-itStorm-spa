@@ -12,9 +12,7 @@ const routes: Routes = [{
     {path: '', component: MainComponent},
     {path:'agreement', component:AgreementComponent},
     {path:'', loadChildren: () => import('./views/user/user.module').then(m => m.UserModule), canActivate:[AuthForwardGuard]},
-    {path:'', loadChildren: () => import('./views/article/article.module').then(m => m.ArticleModule)},
-  //   {path:'', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
-  //   {path:'', loadChildren: () => import('./views/personal/personal.module').then(m => m.PersonalModule), canActivate:[AuthGuard]},
+    {path:'', loadChildren: () => import('./views/article/article.module').then(m => m.ArticleModule)}
   ]
 }];
 
