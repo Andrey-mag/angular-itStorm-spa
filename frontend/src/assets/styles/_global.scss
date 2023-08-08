@@ -50,6 +50,11 @@ nav {
   cursor: pointer;
   width: 153px;
   box-sizing: border-box;
+
+  &[disabled] {
+    cursor: not-allowed;
+    background-color: lighten($light-blue-color, 10%);
+  }
 }
 
 .input {

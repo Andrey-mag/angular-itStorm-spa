@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {Router} from "@angular/router";
 import {ReviewType} from "../../../types/review.type";
@@ -13,6 +13,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ArticleType} from "../../../types/article.type";
 import {ArticleService} from "../../shared/services/article.service";
 import {DefaultResponseType} from "../../../types/default-response.type";
+import {ServicesSelectorEnum} from "../../../types/services-selector.enum";
 
 @Component({
   selector: 'app-main',
@@ -78,27 +79,31 @@ export class MainComponent implements OnInit {
   mainServices: MainServicesType[] = [
     {
       image: 'service1.png',
-      title: 'Создание сайтов',
+      title: ServicesSelectorEnum.websiteDevelopment,
       text: 'В краткие сроки мы создадим качественный и самое главное продающий сайт для продвижения Вашего бизнеса!',
-      price: '7 500'
+      price: '7 500',
+      service:ServicesSelectorEnum.websiteDevelopment,
     },
     {
       image: 'service2.png',
-      title: 'Продвижение',
+      title: ServicesSelectorEnum.promotion,
       text: 'Вам нужен качественный SMM-специалист или грамотный таргетолог? Мы готовы оказать Вам услугу “Продвижения” на наивысшем уровне!',
-      price: '3 500'
+      price: '3 500',
+      service:ServicesSelectorEnum.promotion,
     },
     {
       image: 'service3.png',
-      title: 'Реклама',
+      title: ServicesSelectorEnum.advertising,
       text: 'Без рекламы не может обойтись ни один бизнес или специалист. Обращаясь к нам, мы гарантируем быстрый прирост клиентов за счёт правильно настроенной рекламы.',
-      price: '1 000'
+      price: '1 000',
+      service:ServicesSelectorEnum.advertising,
     },
     {
       image: 'service4.png',
-      title: 'Копирайтинг',
+      title: ServicesSelectorEnum.copywriting,
       text: 'Наши копирайтеры готовы написать Вам любые продающие текста, которые не только обеспечат рост охватов, но и помогут выйти на новый уровень в продажах.',
-      price: '750'
+      price: '750',
+      service:ServicesSelectorEnum.copywriting,
     },
   ]
 
@@ -210,4 +215,6 @@ export class MainComponent implements OnInit {
         }
       })
   }
+
+  protected readonly ServicesSelectorEnum = ServicesSelectorEnum;
 }

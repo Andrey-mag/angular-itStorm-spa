@@ -22,12 +22,12 @@ import { LoaderComponent } from './components/loader/loader.component';
     ReactiveFormsModule,
     RouterLink,
   ],
-  exports: [
-    PopupSuccessComponent,
-    ArticleCardComponent,
-    CommentItemComponent,
-    LoaderComponent
-  ]
+    exports: [
+        PopupSuccessComponent,
+        ArticleCardComponent,
+        CommentItemComponent,
+        LoaderComponent,
+    ]
 })
 export class SharedModule {
 }

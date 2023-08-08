@@ -34,7 +34,7 @@ export class CommentItemComponent implements OnInit {
     this.isLogged = this.authService.getIsLoggedIn();
     setTimeout((): void => {
       this.checkActionValue()
-    }, 100);
+    }, 200);
     this.likesCount = this.comment.likesCount;
     this.dislikesCount = this.comment.dislikesCount;
   }
@@ -50,11 +50,11 @@ export class CommentItemComponent implements OnInit {
     }
   }
 
-  addLike(): void {
-    if (this.isLogged) {
-      if (!this.like) {
-        this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
-          .subscribe((data: DefaultResponseType): void => {
+  addLike() {
+    this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
+      .subscribe((data: DefaultResponseType): void => {
+        if (this.isLogged) {
+          if (!this.like) {
             if (this.dislike) {
               this.dislike = false;
               this.dislikesCount = --this.dislikesCount
@@ -64,26 +64,25 @@ export class CommentItemComponent implements OnInit {
             this.likesCount = ++this.likesCount
             this._snackbar.open('Ваш голос учтен')
 
-          });
-      } else {
-        this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
-          .subscribe((data: DefaultResponseType): void => {
+          } else {
             if (!data.error) {
               this.like = false;
               this.likesCount = --this.likesCount;
             }
-          });
-      }
-    } else {
-      this._snackbar.open('Необходимо авторизоваться')
-    }
+          }
+        } else {
+          this._snackbar.open('Необходимо авторизоваться')
+        }
+      })
   }
 
+
   addDislike(): void {
-    if (this.isLogged) {
-      if (!this.dislike) {
-        this.commentsService.sendCommentAction(this.comment.id, this.actionDislike)
-          .subscribe((data: DefaultResponseType): void => {
+    this.commentsService.sendCommentAction(this.comment.id, this.actionDislike)
+      .subscribe((data: DefaultResponseType): void => {
+        if (this.isLogged) {
+          if (!this.dislike) {
+
             if (this.like) {
               this.like = false;
               this.likesCount = --this.likesCount;
@@ -92,19 +91,16 @@ export class CommentItemComponent implements OnInit {
             this.dislikesCount = ++this.dislikesCount;
             this._snackbar.open('Ваш голос учтен')
 
-          })
-      } else {
-        this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
-          .subscribe((data: DefaultResponseType): void => {
+          } else {
             if (!data.error) {
               this.dislike = false;
               this.dislikesCount = --this.dislikesCount;
             }
-          });
-      }
-    } else {
-      this._snackbar.open('Необходимо авторизоваться')
-    }
+          }
+        } else {
+          this._snackbar.open('Необходимо авторизоваться')
+        }
+      })
   }
 
   addViolate(): void {

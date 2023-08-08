@@ -3,4 +3,5 @@ export type MainServicesType = {
   title:string,
   text:string,
   price:string,
+  service:string;
 }

@@ -40,9 +40,6 @@ export class DetailComponent implements OnInit {
       this.isLogged = isLogged;
     });
 
-    setTimeout((): void => {
-      this.getDetailArticle()
-    }, 100);
     this.getDetailArticle();
     this.activatedRoute.params
       .pipe(
