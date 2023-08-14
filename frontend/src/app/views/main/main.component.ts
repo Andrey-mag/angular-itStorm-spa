@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {Router} from "@angular/router";
 import {ReviewType} from "../../../types/review.type";
@@ -29,12 +29,22 @@ export class MainComponent implements OnInit {
   isLogged: boolean = false;
   isSuccess: boolean = false;
   popularArticles: ArticleType[] = [];
+  ServicesSelector = ServicesSelectorEnum;
 
   popupForm = this.fb.group({
     service: ['', [Validators.required]],
     name: ['', [Validators.required, Validators.pattern('^([А-Яа-я]{3,})$')]],
     phone: ['', [Validators.required, Validators.pattern('(^8|7|\\+7)((\\d{10})|(\\s\\(\\d{3}\\)\\s\\d{3}\\s\\d{2}\\s\\d{2}))')]],
   })
+
+  selectOptions:ServicesSelectorEnum[] = [
+    this.ServicesSelector.copywriting,
+    this.ServicesSelector.promotion,
+    this.ServicesSelector.advertising,
+    this.ServicesSelector.websiteDevelopment,
+    this.ServicesSelector.instagramPromotion,
+    this.ServicesSelector.smmPromotion,
+  ]
 
   customOptions: OwlOptions = {
     loop: true,

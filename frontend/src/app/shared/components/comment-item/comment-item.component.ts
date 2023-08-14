@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentType} from "../../../../types/comment.type";
 import {CommentService} from "../../services/comment.service";
@@ -14,12 +14,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class CommentItemComponent implements OnInit {
 
   @Input() comment!: CommentType;
+  @Output() actionChangeEmmit: EventEmitter<CommentType> = new EventEmitter<CommentType>();
 
   isLogged: boolean = false;
   dislike: boolean = false;
   like: boolean = false;
-  likesCount: number = 0;
-  dislikesCount: number = 0;
   violate: string = 'violate';
   actionLike: string = 'like';
   actionDislike: string = 'dislike';
@@ -27,19 +26,16 @@ export class CommentItemComponent implements OnInit {
   constructor(private commentsService: CommentService,
               private _snackbar: MatSnackBar,
               private authService: AuthService) {
-
   }
 
   ngOnInit(): void {
     this.isLogged = this.authService.getIsLoggedIn();
-    setTimeout((): void => {
+    setTimeout(() => {
       this.checkActionValue()
-    }, 200);
-    this.likesCount = this.comment.likesCount;
-    this.dislikesCount = this.comment.dislikesCount;
+    }, 100);
   }
 
-  checkActionValue(): void {
+  checkActionValue() {
     if (this.comment.action) {
       if (this.comment.action === this.actionLike) {
         this.like = true;
@@ -50,80 +46,34 @@ export class CommentItemComponent implements OnInit {
     }
   }
 
-  addLike() {
-    this.commentsService.sendCommentAction(this.comment.id, this.actionLike)
-      .subscribe((data: DefaultResponseType): void => {
-        if (this.isLogged) {
-          if (!this.like) {
-            if (this.dislike) {
-              this.dislike = false;
-              this.dislikesCount = --this.dislikesCount
-            }
-            this.like = true;
-            this.dislike = false;
-            this.likesCount = ++this.likesCount
-            this._snackbar.open('Ваш голос учтен')
-
-          } else {
-            if (!data.error) {
-              this.like = false;
-              this.likesCount = --this.likesCount;
-            }
-          }
-        } else {
-          this._snackbar.open('Необходимо авторизоваться')
-        }
-      })
+  addLike(): void {
+    this.actionChangeEmmit.emit(this.comment);
   }
-
 
   addDislike(): void {
-    this.commentsService.sendCommentAction(this.comment.id, this.actionDislike)
-      .subscribe((data: DefaultResponseType): void => {
-        if (this.isLogged) {
-          if (!this.dislike) {
-
-            if (this.like) {
-              this.like = false;
-              this.likesCount = --this.likesCount;
-            }
-            this.dislike = true;
-            this.dislikesCount = ++this.dislikesCount;
-            this._snackbar.open('Ваш голос учтен')
-
-          } else {
-            if (!data.error) {
-              this.dislike = false;
-              this.dislikesCount = --this.dislikesCount;
-            }
-          }
-        } else {
-          this._snackbar.open('Необходимо авторизоваться')
-        }
-      })
+    this.actionChangeEmmit.emit(this.comment);
   }
 
-  addViolate(): void {
+  addViolate() {
     if (this.isLogged) {
       this.commentsService.sendCommentAction(this.comment.id, this.violate)
         .subscribe({
-          next: (data: DefaultResponseType): void => {
+          next: (data: DefaultResponseType) => {
             if (!data.error) {
               this._snackbar.open('Жалоба отправлена');
 
             }
           },
-          error: (errorResponse: HttpErrorResponse): void => {
+          error: (errorResponse: HttpErrorResponse) => {
             if (errorResponse.error && errorResponse.error.message) {
-              this._snackbar.open('Жалоба уже отправленa')
-            } else {
               this._snackbar.open(errorResponse.error.message)
+            } else {
+              this._snackbar.open('Жалоба уже отправлена')
             }
           }
-        });
+        })
     } else {
       this._snackbar.open('Необходимо авторизоваться')
     }
   }
 }
-

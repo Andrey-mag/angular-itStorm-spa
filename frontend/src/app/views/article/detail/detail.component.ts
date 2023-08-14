@@ -11,6 +11,7 @@ import {AuthService} from "../../../core/auth/auth.service";
 import {UserActionType} from "../../../../types/user-action.type";
 import {switchMap} from "rxjs";
 import {CommentParamsType} from "../../../../types/comment-params.type";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'detail',
@@ -25,6 +26,14 @@ export class DetailComponent implements OnInit {
   textareaValue: string = '';
   comments: CommentType[] = [];
   isLogged: boolean = false;
+
+  violate: string = 'violate';
+  actionLike: string = 'like';
+  actionDislike: string = 'dislike';
+  likesCount: number = 0;
+  dislikesCount: number = 0;
+  dislike: boolean = false;
+  like: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
               private articleService: ArticleService,
@@ -41,12 +50,13 @@ export class DetailComponent implements OnInit {
     });
 
     this.getDetailArticle();
+
     this.activatedRoute.params
       .pipe(
         switchMap((params: Params) => this.articleService.getRelatedArticle(params['url']))
       )
       .subscribe((data: ArticleType[]): void => {
-        this.articles = data;
+        this.relatedArticles = data;
       });
   }
 
@@ -107,5 +117,67 @@ export class DetailComponent implements OnInit {
         this._snackBar.open('Комментарий отправлен!');
         this.getDetailArticle();
       });
+  }
+
+  addLike(event: CommentType): void {
+    this.commentService.sendCommentAction(event.id, this.actionLike)
+      .subscribe((data: DefaultResponseType): void => {
+        if (this.isLogged) {
+          if (!this.like) {
+            if (this.dislike) {
+              this.dislike = false;
+              this.dislikesCount = --this.dislikesCount
+            }
+            this.like = true;
+            this.dislike = false;
+            this.likesCount = ++this.likesCount
+            this._snackBar.open('Ваш голос учтен');
+
+
+          } else {
+            this.commentService.sendCommentAction(event.id, this.actionLike)
+              .subscribe(data => {
+                if (!data.error) {
+                  this.like = false;
+                  this.likesCount = --this.likesCount;
+
+                }
+              });
+          }
+        } else {
+          this._snackBar.open('Необходимо авторизоваться')
+        }
+      })
+    this.getDetailArticle();
+  }
+
+  addDislike(event: CommentType): void {
+    if (this.isLogged) {
+      if (!this.dislike) {
+        this.commentService.sendCommentAction(event.id, this.actionDislike)
+          .subscribe((data: DefaultResponseType): void => {
+
+            if (this.like) {
+              this.like = false;
+              this.likesCount = --this.likesCount;
+            }
+            this.dislike = true;
+            this.dislikesCount = ++this.dislikesCount;
+            this._snackBar.open('Ваш голос учтен');
+
+          })
+      } else {
+        this.commentService.sendCommentAction(event.id, this.actionLike)
+          .subscribe(data => {
+            if (!data.error) {
+              this.dislike = false;
+              this.dislikesCount = --this.dislikesCount;
+            }
+          });
+      }
+    } else {
+      this._snackBar.open('Необходимо авторизоваться')
+    }
+    this.getDetailArticle();
   }
 }

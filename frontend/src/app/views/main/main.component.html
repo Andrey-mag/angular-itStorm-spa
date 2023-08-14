@@ -289,12 +289,7 @@
             <select type="select" class="input" formControlName="service"
                     [ngStyle]="{'border-color': popupForm.get('service')?.invalid
                 && (popupForm.get('service')?.dirty || popupForm.get('service')?.touched) ? 'red' : ''}">
-              <option>Копирайтинг</option>
-              <option>Продвижение</option>
-              <option>Реклама</option>
-              <option>Создание сайтов</option>
-              <option>Продвижение инстаграм</option>
-              <option>Продвижение SMM</option>
+              <option *ngFor="let selectOption of selectOptions">{{selectOption}}</option>
             </select>
             <div class="invalid-feedback-block" *ngIf="service?.invalid && (service?.touched || service?.dirty)">
               <div class="invalid-feedback" *ngIf="service?.errors?.['required']">
