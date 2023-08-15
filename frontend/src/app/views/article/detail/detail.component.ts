@@ -11,7 +11,6 @@ import {AuthService} from "../../../core/auth/auth.service";
 import {UserActionType} from "../../../../types/user-action.type";
 import {switchMap} from "rxjs";
 import {CommentParamsType} from "../../../../types/comment-params.type";
-import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'detail',
@@ -30,8 +29,6 @@ export class DetailComponent implements OnInit {
   violate: string = 'violate';
   actionLike: string = 'like';
   actionDislike: string = 'dislike';
-  likesCount: number = 0;
-  dislikesCount: number = 0;
   dislike: boolean = false;
   like: boolean = false;
 
@@ -96,6 +93,23 @@ export class DetailComponent implements OnInit {
 
     this.commentService.getComments(params)
       .subscribe((data): void => {
+
+        this.commentService.getCommentActions({articleId: this.detailArticle.id})
+          .subscribe((data: UserActionType[] | DefaultResponseType): void => {
+            if ((data as DefaultResponseType).error !== undefined) {
+              throw new Error((data as DefaultResponseType).message)
+            }
+
+            this.comments.map((comment: CommentType) => {
+              (data as UserActionType[]).forEach((action: UserActionType): void => {
+                if (action.comment === comment.id) {
+                  comment.action = action.action
+                }
+              })
+              return comment;
+            });
+          });
+
         data.comments.forEach((item: CommentType): void => {
           if (this.comments.length < data.allCount) {
             this.comments.push(item)
@@ -120,35 +134,35 @@ export class DetailComponent implements OnInit {
   }
 
   addLike(event: CommentType): void {
-    this.commentService.sendCommentAction(event.id, this.actionLike)
-      .subscribe((data: DefaultResponseType): void => {
-        if (this.isLogged) {
-          if (!this.like) {
+    if (this.isLogged) {
+      if (!this.like) {
+        this.commentService.sendCommentAction(event.id, this.actionLike)
+          .subscribe((data: DefaultResponseType): void => {
+
             if (this.dislike) {
               this.dislike = false;
-              this.dislikesCount = --this.dislikesCount
+              event.dislikesCount = --event.dislikesCount;
             }
+
             this.like = true;
-            this.dislike = false;
-            this.likesCount = ++this.likesCount
+            event.likesCount = ++event.likesCount;
             this._snackBar.open('Ваш голос учтен');
+            this.getDetailArticle();
 
-
-          } else {
-            this.commentService.sendCommentAction(event.id, this.actionLike)
-              .subscribe(data => {
-                if (!data.error) {
-                  this.like = false;
-                  this.likesCount = --this.likesCount;
-
-                }
-              });
-          }
-        } else {
-          this._snackBar.open('Необходимо авторизоваться')
-        }
-      })
-    this.getDetailArticle();
+          })
+      } else {
+        this.commentService.sendCommentAction(event.id, this.actionLike)
+          .subscribe((data: DefaultResponseType): void => {
+            if (!data.error) {
+              this.like = false;
+              event.likesCount = --event.likesCount;
+              this.getDetailArticle();
+            }
+          });
+      }
+    } else {
+      this._snackBar.open('Необходимо авторизоваться')
+    }
   }
 
   addDislike(event: CommentType): void {
@@ -159,25 +173,28 @@ export class DetailComponent implements OnInit {
 
             if (this.like) {
               this.like = false;
-              this.likesCount = --this.likesCount;
+              event.likesCount = --event.likesCount;
             }
+
             this.dislike = true;
-            this.dislikesCount = ++this.dislikesCount;
+            event.dislikesCount = ++event.dislikesCount;
             this._snackBar.open('Ваш голос учтен');
+            this.getDetailArticle();
+
 
           })
       } else {
-        this.commentService.sendCommentAction(event.id, this.actionLike)
+        this.commentService.sendCommentAction(event.id, this.actionDislike)
           .subscribe(data => {
             if (!data.error) {
               this.dislike = false;
-              this.dislikesCount = --this.dislikesCount;
+              event.likesCount = --event.likesCount;
+              this.getDetailArticle();
             }
           });
       }
     } else {
       this._snackBar.open('Необходимо авторизоваться')
     }
-    this.getDetailArticle();
   }
 }

@@ -14,7 +14,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class CommentItemComponent implements OnInit {
 
   @Input() comment!: CommentType;
-  @Output() actionChangeEmmit: EventEmitter<CommentType> = new EventEmitter<CommentType>();
+  @Output() likeEmmit: EventEmitter<CommentType> = new EventEmitter<CommentType>();
+  @Output() dislikeEmmit: EventEmitter<CommentType> = new EventEmitter<CommentType>();
 
   isLogged: boolean = false;
   dislike: boolean = false;
@@ -47,11 +48,11 @@ export class CommentItemComponent implements OnInit {
   }
 
   addLike(): void {
-    this.actionChangeEmmit.emit(this.comment);
+    this.likeEmmit.emit(this.comment);
   }
 
   addDislike(): void {
-    this.actionChangeEmmit.emit(this.comment);
+    this.dislikeEmmit.emit(this.comment);
   }
 
   addViolate() {

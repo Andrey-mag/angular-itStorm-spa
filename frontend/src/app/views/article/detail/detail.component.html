@@ -88,7 +88,7 @@
       </div>
 
       <div class="detail-article-comments-items">
-        <comment-item [comment]="comment" *ngFor="let comment of comments" (actionChangeEmmit)="addLike($event)" (actionChangeEmmit)="addDislike($event)"></comment-item>
+        <comment-item [comment]="comment" *ngFor="let comment of comments" (likeEmmit)="addLike($event)" (dislikeEmmit)="addDislike($event)"></comment-item>
       </div>
 
       <div class="detail-article-comments-read-more" (click)="getComments()">
