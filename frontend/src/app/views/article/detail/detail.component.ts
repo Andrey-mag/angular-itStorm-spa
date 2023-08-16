@@ -18,7 +18,7 @@ import {CommentParamsType} from "../../../../types/comment-params.type";
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-
+  articleCommentActions: UserActionType[] = [];
   detailArticle!: DetailArticleType;
   articles: ArticleType[] = [];
   relatedArticles!: ArticleType[];
@@ -72,10 +72,12 @@ export class DetailComponent implements OnInit {
                 throw new Error((data as DefaultResponseType).message)
               }
 
+              this.articleCommentActions = data as UserActionType[]
+
               this.comments.map((comment: CommentType) => {
-                (data as UserActionType[]).forEach((action: UserActionType): void => {
-                  if (action.comment === comment.id) {
-                    comment.action = action.action
+                this.articleCommentActions.forEach((item: UserActionType): void => {
+                  if (item.comment === comment.id) {
+                    comment.action = item.action
                   }
                 })
                 return comment;
@@ -85,30 +87,23 @@ export class DetailComponent implements OnInit {
       });
   }
 
-  getComments(): void {
+  getMoreComments(): void {
     const params: CommentParamsType = {
       offset: this.comments.length,
       article: this.detailArticle.id
     }
 
-    this.commentService.getComments(params)
+    this.commentService.getMoreComments(params)
       .subscribe((data): void => {
 
-        this.commentService.getCommentActions({articleId: this.detailArticle.id})
-          .subscribe((data: UserActionType[] | DefaultResponseType): void => {
-            if ((data as DefaultResponseType).error !== undefined) {
-              throw new Error((data as DefaultResponseType).message)
+        data.comments.map((comment: CommentType) => {
+          this.articleCommentActions.forEach((item: UserActionType): void => {
+            if (item.comment === comment.id) {
+              comment.action = item.action
             }
-
-            this.comments.map((comment: CommentType) => {
-              (data as UserActionType[]).forEach((action: UserActionType): void => {
-                if (action.comment === comment.id) {
-                  comment.action = action.action
-                }
-              })
-              return comment;
-            });
-          });
+          })
+          return comment;
+        });
 
         data.comments.forEach((item: CommentType): void => {
           if (this.comments.length < data.allCount) {
@@ -129,7 +124,6 @@ export class DetailComponent implements OnInit {
 
         this.textareaValue = '';
         this._snackBar.open('Комментарий отправлен!');
-        this.getDetailArticle();
       });
   }
 
@@ -147,7 +141,7 @@ export class DetailComponent implements OnInit {
             this.like = true;
             event.likesCount = ++event.likesCount;
             this._snackBar.open('Ваш голос учтен');
-            this.getDetailArticle();
+
 
           })
       } else {
@@ -156,7 +150,6 @@ export class DetailComponent implements OnInit {
             if (!data.error) {
               this.like = false;
               event.likesCount = --event.likesCount;
-              this.getDetailArticle();
             }
           });
       }
@@ -179,8 +172,6 @@ export class DetailComponent implements OnInit {
             this.dislike = true;
             event.dislikesCount = ++event.dislikesCount;
             this._snackBar.open('Ваш голос учтен');
-            this.getDetailArticle();
-
 
           })
       } else {
@@ -188,8 +179,7 @@ export class DetailComponent implements OnInit {
           .subscribe(data => {
             if (!data.error) {
               this.dislike = false;
-              event.likesCount = --event.likesCount;
-              this.getDetailArticle();
+              event.dislikesCount = --event.dislikesCount;
             }
           });
       }

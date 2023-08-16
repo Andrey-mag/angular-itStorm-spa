@@ -15,7 +15,7 @@ export class CommentService {
 
   constructor(private http:HttpClient) { }
 
-  getComments(params: CommentParamsType): Observable<{allCount: number, comments: CommentType[]}> {
+  getMoreComments(params: CommentParamsType): Observable<{allCount: number, comments: CommentType[]}> {
     return this.http.get<{allCount: number, comments: CommentType[]}>(environment.api + 'comments', {
       params: params
     });
