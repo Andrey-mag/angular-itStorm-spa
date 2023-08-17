@@ -18,8 +18,6 @@ export class CommentItemComponent implements OnInit {
   @Output() dislikeEmmit: EventEmitter<CommentType> = new EventEmitter<CommentType>();
 
   isLogged: boolean = false;
-  dislike: boolean = false;
-  like: boolean = false;
   violate: string = 'violate';
   actionLike: string = 'like';
   actionDislike: string = 'dislike';
@@ -31,7 +29,7 @@ export class CommentItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLogged = this.authService.getIsLoggedIn();
-    setTimeout(() => {
+    setTimeout(():void => {
       this.checkActionValue()
     }, 100);
   }
@@ -39,10 +37,10 @@ export class CommentItemComponent implements OnInit {
   checkActionValue() {
     if (this.comment.action) {
       if (this.comment.action === this.actionLike) {
-        this.like = true;
+        this.comment.action = this.actionLike;
       }
       if (this.comment.action === this.actionDislike) {
-        this.dislike = true;
+        this.comment.action = this.actionDislike;
       }
     }
   }

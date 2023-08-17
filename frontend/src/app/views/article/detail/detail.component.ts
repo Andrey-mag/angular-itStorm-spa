@@ -29,8 +29,6 @@ export class DetailComponent implements OnInit {
   violate: string = 'violate';
   actionLike: string = 'like';
   actionDislike: string = 'dislike';
-  dislike: boolean = false;
-  like: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
               private articleService: ArticleService,
@@ -97,25 +95,25 @@ export class DetailComponent implements OnInit {
       .subscribe((data): void => {
 
         data.comments.map((comment: CommentType) => {
-          this.articleCommentActions.forEach((item: UserActionType): void => {
+          this.articleCommentActions.find((item: UserActionType): void => {
             if (item.comment === comment.id) {
               comment.action = item.action
             }
           })
+          if (this.comments.length < data.allCount) {
+            this.comments.push(comment)
+          }
           return comment;
         });
 
-        data.comments.forEach((item: CommentType): void => {
-          if (this.comments.length < data.allCount) {
-            this.comments.push(item)
-          }
-        });
       });
   }
 
   addComment(): void {
+
     this.commentService.addComment(this.textareaValue, this.detailArticle.id)
       .subscribe((data: DefaultResponseType): void => {
+
         let error = null;
         if ((data as DefaultResponseType).error !== undefined) {
           error = (data as DefaultResponseType).message;
@@ -124,32 +122,37 @@ export class DetailComponent implements OnInit {
 
         this.textareaValue = '';
         this._snackBar.open('Комментарий отправлен!');
+
+        this.activatedRoute.params
+          .pipe(
+            switchMap((params: Params) => this.articleService.getArticle(params['url']))
+          )
+          .subscribe((data: DetailArticleType): void => {
+            this.comments = data.comments;
+          })
       });
   }
 
-  addLike(event: CommentType): void {
+  addLike(commentEvent: CommentType): void {
     if (this.isLogged) {
-      if (!this.like) {
-        this.commentService.sendCommentAction(event.id, this.actionLike)
+      if (commentEvent.action !== this.actionLike) {
+        this.commentService.sendCommentAction(commentEvent.id, this.actionLike)
           .subscribe((data: DefaultResponseType): void => {
-
-            if (this.dislike) {
-              this.dislike = false;
-              event.dislikesCount = --event.dislikesCount;
+            if (commentEvent.action === this.actionDislike) {
+              commentEvent.dislikesCount = --commentEvent.dislikesCount;
+              commentEvent.action = this.actionLike;
             }
 
-            this.like = true;
-            event.likesCount = ++event.likesCount;
+            commentEvent.likesCount = ++commentEvent.likesCount;
+            commentEvent.action = this.actionLike;
             this._snackBar.open('Ваш голос учтен');
-
-
           })
       } else {
-        this.commentService.sendCommentAction(event.id, this.actionLike)
+        this.commentService.sendCommentAction(commentEvent.id, this.actionLike)
           .subscribe((data: DefaultResponseType): void => {
             if (!data.error) {
-              this.like = false;
-              event.likesCount = --event.likesCount;
+              commentEvent.action = null;
+              commentEvent.likesCount = --commentEvent.likesCount;
             }
           });
       }
@@ -158,28 +161,26 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  addDislike(event: CommentType): void {
+  addDislike(commentEvent: CommentType): void {
     if (this.isLogged) {
-      if (!this.dislike) {
-        this.commentService.sendCommentAction(event.id, this.actionDislike)
+      if (commentEvent.action !== this.actionDislike) {
+        this.commentService.sendCommentAction(commentEvent.id, this.actionDislike)
           .subscribe((data: DefaultResponseType): void => {
-
-            if (this.like) {
-              this.like = false;
-              event.likesCount = --event.likesCount;
+            if (commentEvent.action === this.actionLike) {
+              commentEvent.likesCount = --commentEvent.likesCount;
+              commentEvent.action = this.actionDislike;
             }
 
-            this.dislike = true;
-            event.dislikesCount = ++event.dislikesCount;
+            commentEvent.dislikesCount = ++commentEvent.dislikesCount;
+            commentEvent.action = this.actionDislike;
             this._snackBar.open('Ваш голос учтен');
-
-          })
+          });
       } else {
-        this.commentService.sendCommentAction(event.id, this.actionDislike)
-          .subscribe(data => {
+        this.commentService.sendCommentAction(commentEvent.id, this.actionDislike)
+          .subscribe((data: DefaultResponseType): void => {
             if (!data.error) {
-              this.dislike = false;
-              event.dislikesCount = --event.dislikesCount;
+              commentEvent.action = null;
+              commentEvent.dislikesCount = --commentEvent.dislikesCount;
             }
           });
       }
